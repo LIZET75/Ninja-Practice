@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { NinjasService } from './ninjas.service';
 // import { UpdateNinjaDto } from './dto/update-ninja.dto';
@@ -40,7 +40,11 @@ export class NinjasController {
 //4.3)
 @Get(':id') //':id' defines the above route ninjas/:id
 getOneNinja(@Param('id') id:string) {
-    return this.ninjasService.getNinja(+id)//id needs to include a + bc the url is a string and it is expecting a #. + turns it into a number.
+    try {
+    return this.ninjasService.getNinja(+id);//id needs to include a + bc the url is a string and it is expecting a #. + turns it into a number.
+} catch (err) { 
+    throw new NotFoundException();
+} //VID 5 1:28
 }
 
 
